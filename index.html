@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mailings CUPN - Sistema de Visualización</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fdfdfd;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #2d3436;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .arquetipo-section {
+            margin-bottom: 60px;
+        }
+
+        .arquetipo-title {
+            color: #2d3436;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: inline-block;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #2d3436;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .card-subtitle {
+            font-size: 0.95rem;
+            color: #636e72;
+            margin-bottom: 20px;
+        }
+
+        .card-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .card-button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #00b894;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .coming-soon {
+            background: #fdcb6e;
+            color: #2d3436;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            color: #636e72;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .arquetipo-title {
+                font-size: 1.4rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema de Mailings CUPN</h1>
+            <p>Visualiza y gestiona todos los templates de email por arquetipo</p>
+        </header>
+
+        <!-- Arquetipo 1: Ingenierías y Licenciaturas -->
+        <div class="arquetipo-section">
+            <h2 class="arquetipo-title">Arquetipo 1 - Ingenierías y Licenciaturas</h2>
+            
+            <h3 style="color: #2d3436; font-size: 1.3rem; margin-bottom: 20px; margin-left: 10px;">Ingenierías</h3>
+            <div class="cards-grid" id="ingenierias-grid">
+                <!-- Las cards se generarán dinámicamente -->
+            </div>
+
+            <h3 style="color: #2d3436; font-size: 1.3rem; margin-bottom: 20px; margin-top: 40px; margin-left: 10px;">Licenciaturas</h3>
+            <div class="cards-grid" id="licenciaturas-grid">
+                <!-- Las cards se generarán dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Arquetipo 2 -->
+        <div class="arquetipo-section">
+            <h2 class="arquetipo-title">Arquetipo 2</h2>
+            
+            <h3 style="color: #2d3436; font-size: 1.3rem; margin-bottom: 20px; margin-left: 10px;">Ingenierías</h3>
+            <div class="cards-grid" id="arquetipo2-ingenierias-grid">
+                <!-- Las cards se generarán dinámicamente -->
+            </div>
+
+            <h3 style="color: #2d3436; font-size: 1.3rem; margin-bottom: 20px; margin-top: 40px; margin-left: 10px;">Licenciaturas</h3>
+            <div class="cards-grid" id="arquetipo2-licenciaturas-grid">
+                <!-- Las cards se generarán dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de mailings de ingenierías
+        const ingenieriasMailings = [
+            { numero: 1, path: 'arquetipo-1/ingenierias/mailing-1/index.html' },
+            { numero: 2, path: 'arquetipo-1/ingenierias/mailing-2/index.html' },
+            { numero: 3, path: 'arquetipo-1/ingenierias/mailing-3/index.html' },
+            { numero: 4, path: 'arquetipo-1/ingenierias/mailing-4/index.html' },
+            { numero: 5, path: 'arquetipo-1/ingenierias/mailing-5/index.html' },
+            { numero: 6, path: 'arquetipo-1/ingenierias/mailing-6/index.html' },
+            { numero: 7, path: 'arquetipo-1/ingenierias/mailing-7/index.html' },
+            { numero: 8, path: 'arquetipo-1/ingenierias/mailing-8/index.html' }
+        ];
+
+        // Configuración de mailings de licenciaturas
+        const licenciaturasMailings = [
+            { numero: 1, path: 'arquetipo-1/licenciaturas/mailing-1/index.html' },
+            { numero: 2, path: 'arquetipo-1/licenciaturas/mailing-2/index.html' },
+            { numero: 3, path: 'arquetipo-1/licenciaturas/mailing-3/index.html' },
+            { numero: 4, path: 'arquetipo-1/licenciaturas/mailing-4/index.html' },
+            { numero: 5, path: 'arquetipo-1/licenciaturas/mailing-5/index.html' },
+            { numero: 6, path: 'arquetipo-1/licenciaturas/mailing-6/index.html' },
+            { numero: 7, path: 'arquetipo-1/licenciaturas/mailing-7/index.html' },
+            { numero: 8, path: 'arquetipo-1/licenciaturas/mailing-8/index.html' },
+            { numero: 9, path: 'arquetipo-1/licenciaturas/mailing-9/index.html' }
+        ];
+
+        // Configuración de mailings de arquetipo 2 - ingenierías
+        const arquetipo2IngenieriasMailings = [
+            { numero: 1, path: 'arquetipo-2/ingenierias/mailing-1/index.html' },
+            { numero: 2, path: 'arquetipo-2/ingenierias/mailing-2/index.html' },
+            { numero: 3, path: 'arquetipo-2/ingenierias/mailing-3/index.html' },
+            { numero: 4, path: 'arquetipo-2/ingenierias/mailing-4/index.html' },
+            { numero: 5, path: 'arquetipo-2/ingenierias/mailing-5/index.html' },
+            { numero: 6, path: 'arquetipo-2/ingenierias/mailing-6/index.html' },
+            { numero: 7, path: 'arquetipo-2/ingenierias/mailing-7/index.html' },
+            { numero: 8, path: 'arquetipo-2/ingenierias/mailing-8/index.html' }
+        ];
+
+        // Configuración de mailings de arquetipo 2 - licenciaturas
+        const arquetipo2LicenciaturasMailings = [
+            { numero: 1, path: 'arquetipo-2/licenciaturas/mailing-1/index.html' },
+            { numero: 2, path: 'arquetipo-2/licenciaturas/mailing-2/index.html' },
+            { numero: 3, path: 'arquetipo-2/licenciaturas/mailing-3/index.html' },
+            { numero: 4, path: 'arquetipo-2/licenciaturas/mailing-4/index.html' },
+            { numero: 5, path: 'arquetipo-2/licenciaturas/mailing-5/index.html' },
+            { numero: 6, path: 'arquetipo-2/licenciaturas/mailing-6/index.html' },
+            { numero: 7, path: 'arquetipo-2/licenciaturas/mailing-7/index.html' },
+            { numero: 8, path: 'arquetipo-2/licenciaturas/mailing-8/index.html' },
+            { numero: 9, path: 'arquetipo-2/licenciaturas/mailing-9/index.html' }
+        ];
+
+        // Generar cards de ingenierías
+        const ingenieriasGrid = document.getElementById('ingenierias-grid');
+        
+        ingenieriasMailings.forEach(mailing => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => window.open(mailing.path, '_blank');
+            
+            card.innerHTML = `
+                <div class="card-content">
+                    <h3 class="card-title">Mail ${mailing.numero}</h3>
+                    <a href="${mailing.path}" target="_blank" class="card-button" onclick="event.stopPropagation()">
+                        Ver Mailing →
+                    </a>
+                </div>
+            `;
+            
+            ingenieriasGrid.appendChild(card);
+        });
+
+        // Generar cards de licenciaturas
+        const licenciaturasGrid = document.getElementById('licenciaturas-grid');
+        
+        licenciaturasMailings.forEach(mailing => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => window.open(mailing.path, '_blank');
+            
+            card.innerHTML = `
+                <div class="card-content">
+                    <h3 class="card-title">Mail ${mailing.numero}</h3>
+                    <a href="${mailing.path}" target="_blank" class="card-button" onclick="event.stopPropagation()">
+                        Ver Mailing →
+                    </a>
+                </div>
+            `;
+            
+            licenciaturasGrid.appendChild(card);
+        });
+
+        // Generar cards de arquetipo 2 - ingenierías
+        const arquetipo2IngenieriasGrid = document.getElementById('arquetipo2-ingenierias-grid');
+        
+        arquetipo2IngenieriasMailings.forEach(mailing => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => window.open(mailing.path, '_blank');
+            
+            card.innerHTML = `
+                <div class="card-content">
+                    <h3 class="card-title">Mail ${mailing.numero}</h3>
+                    <a href="${mailing.path}" target="_blank" class="card-button" onclick="event.stopPropagation()">
+                        Ver Mailing →
+                    </a>
+                </div>
+            `;
+            
+            arquetipo2IngenieriasGrid.appendChild(card);
+        });
+
+        // Generar cards de arquetipo 2 - licenciaturas
+        const arquetipo2LicenciaturasGrid = document.getElementById('arquetipo2-licenciaturas-grid');
+        
+        arquetipo2LicenciaturasMailings.forEach(mailing => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => window.open(mailing.path, '_blank');
+            
+            card.innerHTML = `
+                <div class="card-content">
+                    <h3 class="card-title">Mail ${mailing.numero}</h3>
+                    <a href="${mailing.path}" target="_blank" class="card-button" onclick="event.stopPropagation()">
+                        Ver Mailing →
+                    </a>
+                </div>
+            `;
+            
+            arquetipo2LicenciaturasGrid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
